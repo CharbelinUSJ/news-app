@@ -2,46 +2,44 @@ package com.example.myapplication
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.myapplication.ui.theme.MyApplicationTheme
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            MyApplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
+        setContentView(R.layout.activity_main)
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+        val rv = findViewById<RecyclerView>(R.id.rvNews)
+        rv.layoutManager = LinearLayoutManager(this)
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyApplicationTheme {
-        Greeting("Android")
+        val newsList = listOf(
+            NewsItem("Campus Wi-Fi Upgrade Completed",
+                "Network speed improved across all buildings.",
+                R.drawable.ic_news_wifi),
+
+            NewsItem("New Library Opening Hours",
+                "Library stays open until 10 PM starting next week.",
+                R.drawable.ic_news_library),
+
+            NewsItem("Sports Day This Friday",
+                "Football and basketball tournaments. Register before Thursday.",
+                R.drawable.ic_news_sports),
+
+            NewsItem("Security Reminder",
+                "Do not share your credentials. Enable screen lock on devices.",
+                R.drawable.ic_news_security),
+
+            NewsItem("Tech Talk: AI in Mobile Apps",
+                "Guest speaker on real-world AI features in Android.",
+                R.drawable.ic_news_ai),
+
+            NewsItem("Weather Alert",
+                "Heavy rain expected this weekend. Drive carefully.",
+                R.drawable.ic_news_alert)
+        )
+
+        rv.adapter = NewsAdapter(newsList)
     }
 }
